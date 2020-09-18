@@ -25,8 +25,8 @@ services:
   nginx:
     image: nginx
     ports: 
-      - target: 80
-        published: 80
+      - target: 81
+        published: 81
     volumes:
     - type: bind
       source: ./nginx/nginx.conf
