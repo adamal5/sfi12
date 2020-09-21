@@ -4,7 +4,7 @@ pipeline{
         stages{
             stage('SSH into VM'){
                 steps{
-                    sh "ssh adamakcontact@35.197.234.90 /bin/bash"
+                    sh "ssh adamakcontact@35.246.66.234 /bin/bash"
                 }
             }    
             stage('Clone Repository'){
