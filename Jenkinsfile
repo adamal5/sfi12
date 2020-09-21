@@ -2,6 +2,11 @@
 pipeline{
         agent any
         stages{
+            stage('SSH into VM'){
+                steps{
+                    sh "ssh adamakcontact@35.197.234.90"
+                }
+            }    
             stage('Clone Repository'){
                 steps{
                     sh "cd SFIA2 || git clone https://github.com/adamal5/SFIA2/"
