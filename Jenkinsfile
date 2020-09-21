@@ -4,7 +4,7 @@ pipeline{
         stages{
             stage('Clone Repository'){
                 steps{
-                    sh "cd sfi12 || git clone https://github.com/adamal5/sfi12/"
+                    sh "cd SFIA2 || git clone https://github.com/adamal5/SFIA2/"
                 }
             }
             stage('Install Docker and Docker Compose'){
@@ -23,7 +23,7 @@ pipeline{
             stage('Deploy Application'){
                 steps{
                     sh '''
-                    cd sfi12
+                    cd SFIA2
                     export DB_PASSWORD='password' 
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
