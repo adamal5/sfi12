@@ -34,7 +34,6 @@ EOF
                 steps{
                     script{
                         if (env.rollback == 'false'){
-                            sh "ssh -t adamakcontact@35.246.66.234 /bin/bash"
                             image = docker.build("adamal5/chaperoo-frontend")
                         }
                     }
@@ -51,49 +50,7 @@ EOF
                     }
                 }          
             }      
-            stage('Build Backend Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            image = docker.build("adamal5/chaperoo-backend")
-                        }
-                    }
-                }          
-            }
-            stage('Tag & Push Backend Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                image.push("${env.app_version}")
-                            }
-                        }
-                    }
-                }          
-            }  
-
-                stage('Build Database Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            image = docker.build("adamal5/chaperoo-database")
-                        }
-                    }
-                }          
-            }
-            stage('Tag & Push Database Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                image.push("${env.app_version}")
-                            }
-                        }
-                    }
-                }          
-            }  
               
-                
             stage('Deploy Application'){
                 steps{
                     sh '''
