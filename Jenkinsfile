@@ -35,7 +35,7 @@ EOF
                     }
                 }          
             }
-            stage('Tag & Push Image'){
+            stage('Tag & Push Front Image'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
@@ -55,7 +55,7 @@ EOF
                     }
                 }          
             }
-            stage('Tag & Push Image'){
+            stage('Tag & Push Backend Image'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
@@ -76,7 +76,7 @@ EOF
                     }
                 }          
             }
-            stage('Tag & Push Image'){
+            stage('Tag & Push Database Image'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
