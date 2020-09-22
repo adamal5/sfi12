@@ -10,7 +10,7 @@ pipeline{
             stage('Clone Repository'){
                 steps{
                     sh '''
-                      ssh adamakcontact@35.246.66.234 << EOF 
+                      ssh adamakcontact@35.246.66.234 <<EOF 
                       #!/bin/bash  
                       cd SFIA2 || git clone https://github.com/adamal5/SFIA2/
                       EOF
