@@ -30,26 +30,6 @@ EOF
                      '''
                 }
             }
-            stage('Build FrontImage'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            image = docker.build("adamal5/SFIA2-frontend")
-                        }
-                    }
-                }          
-            }
-            stage('Tag & Push Front Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                image.push("${env.app_version}")
-                            }
-                        }
-                    }
-                }          
-            }      
               
             stage('Deploy Application'){
                 steps{
