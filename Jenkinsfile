@@ -10,7 +10,7 @@ pipeline{
             stage('Clone Repository'){
                 steps{
                     sh '''
-                      ssh adamakcontact@35.246.66.234 <<EOF
+                      ssh adamakcontact@35.246.66.234 <<- 'EOF'
                       #!/bin/bash  
                       cd SFIA2 || git clone https://github.com/adamal5/SFIA2/
                       EOF
@@ -20,7 +20,7 @@ pipeline{
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
-                     ssh adamakcontact@35.246.66.234 << EOF
+                     ssh adamakcontact@35.246.66.234 <<- 'EOF'
                      #!/bin/bash  
                      curl https://get.docker.com | sudo bash 
                      sudo usermod -aG docker $(whoami)
@@ -36,7 +36,7 @@ pipeline{
             stage('Deploy Application'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.246.66.234 << EOF
+                    ssh adamakcontact@35.246.66.234 <<- 'EOF'
                     #!/bin/bash  
                     cd SFIA2
                     export DB_PASSWORD='password' 
