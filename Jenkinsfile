@@ -34,7 +34,7 @@ EOF
                 steps{
                     script{
                         if (env.rollback == 'false'){
-                            image = docker.build("adamal5/chaperoo-frontend")
+                            image = docker.build("adamal5/SFIA2-frontend")
                         }
                     }
                 }          
