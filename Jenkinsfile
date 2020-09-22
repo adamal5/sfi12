@@ -32,6 +32,9 @@ EOF
             }
             stage('Build FrontImage'){
                 steps{
+                    sh '''
+                    ssh -t adamakcontact@35.246.66.234 /bin/bash
+                    '''
                     script{
                         if (env.rollback == 'false'){
                             image = docker.build("adamal5/chaperoo-frontend")
