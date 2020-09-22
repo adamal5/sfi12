@@ -34,8 +34,7 @@ EOF
                 steps{
                     script{
                         if (env.rollback == 'false'){
-                            ssh -t adamakcontact@35.246.66.234 /bin/bash && image = docker.build("adamal5/chaperoo-frontend")
-                        }
+                            ssh -t adamakcontact@35.246.66.234 /bin/bash && image = docker.build("adamal5/chaperoo-frontend")}
                     }
                 }          
             }
