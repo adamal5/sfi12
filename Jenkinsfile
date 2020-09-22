@@ -2,6 +2,11 @@
 pipeline{
         agent any
         stages{
+            stage('SSH into VM'){
+                steps{
+                    sh "ssh adamakcontact@35.246.66.234 /bin/bash"
+                }
+            }        
             stage('Clone Repository'){
                 steps{
                     sh '''
