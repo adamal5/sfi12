@@ -99,8 +99,8 @@ EOF
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
-                    docker-compose pull
-                    docker-compose up -d
+                    sudo docker-compose pull
+                    sudo docker-compose up -d
 EOF
                     '''
                 }
