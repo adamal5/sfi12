@@ -67,7 +67,7 @@ EOF
                 }          
             }  
 
-                            stage('Build Database Image'){
+                stage('Build Database Image'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
