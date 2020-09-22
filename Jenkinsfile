@@ -4,6 +4,7 @@ pipeline{
         environment {
             app_version = 'v1'
             rollback = 'false'
+        }
         stages{      
             stage('Clone Repository'){
                 steps{
@@ -110,4 +111,4 @@ EOF
             }
         }    
 }
-}
+
