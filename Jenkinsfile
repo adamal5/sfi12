@@ -9,13 +9,13 @@ pipeline{
             }    
             stage('Clone Repository'){
                 steps{
-                    sh "ssh adamakcontact@35.246.66.234 << EOF cd SFIA2 || git clone https://github.com/adamal5/SFIA2/ EOF"
+                    sh "ssh adamakcontact@35.246.66.234 <<EOF cd SFIA2 || git clone https://github.com/adamal5/SFIA2/ EOF"
                 }
             }
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
-                     ssh adamakcontact@35.246.66.234 /bin/bash << EOF
+                     ssh adamakcontact@35.246.66.234 /bin/bash <<EOF
                      curl https://get.docker.com | sudo bash 
                      sudo usermod -aG docker $(whoami)
                      sudo apt update
@@ -31,7 +31,7 @@ pipeline{
             stage('Deploy Application'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.246.66.234 /bin/bash << EOF
+                    ssh adamakcontact@35.246.66.234 /bin/bash <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password' 
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
