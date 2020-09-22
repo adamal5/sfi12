@@ -9,7 +9,12 @@ pipeline{
             }    
             stage('Clone Repository'){
                 steps{
-                    sh "ssh adamakcontact@35.246.66.234 <<EOF cd SFIA2 || git clone https://github.com/adamal5/SFIA2/ EOF"
+                    sh '''
+                      ssh adamakcontact@35.246.66.234 /bin/bash <<EOF 
+                      cd SFIA2 || git clone https://github.com/adamal5/SFIA2/ 
+                      
+                      EOF
+                      '''
                 }
             }
             stage('Install Docker and Docker Compose'){
