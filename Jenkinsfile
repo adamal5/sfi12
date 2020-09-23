@@ -83,7 +83,6 @@ EOF
                     ssh adamakcontact@35.197.234.90 <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password' 
-                    export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
