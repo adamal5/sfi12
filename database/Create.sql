@@ -1,6 +1,6 @@
 CREATE DATABASE testdb;
 CREATE DATABASE users;
-USE users;
+USE testdb;
 
 DROP TABLE IF EXISTS `users`;
 
