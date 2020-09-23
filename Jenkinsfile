@@ -36,7 +36,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh -t adamakcontact@35.189.85.9 /bin/bash <<EOF
+                            ssh -t adamakcontact@35.189.85.9 <<EOF
                             cd SFIA2/frontend
                             docker build -t adamal5/frontend .
 EOF                            
