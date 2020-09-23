@@ -96,7 +96,6 @@ EOF
                 steps{
                     sh '''
                     ssh adamakcontact@35.197.234.90 <<EOF
-                    sudo pip install pytest
                     pytest
 
 EOF
