@@ -19,6 +19,7 @@ EOF
                 steps{
                     sh '''
                      ssh -t adamakcontact@35.246.66.234 /bin/bash <<EOF
+                     cd SFIA2
                      curl https://get.docker.com | sudo bash 
                      sudo usermod -aG docker $(whoami)
                      sudo apt update
@@ -30,6 +31,28 @@ EOF
                      '''
                 }
             }
+            stage('Build FrontImage'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            sh "ssh -t adamakcontact@35.246.66.234 /bin/bash"
+                            cd SFIA2/frontend
+                            image = docker.build("adamal5/chaperoo-frontend")
+                        }
+                    }
+                }          
+            }
+            stage('Tag & Push Front Image'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+                                image.push("${env.app_version}")
+                            }
+                        }
+                    }
+                }          
+            }        
               
             stage('Deploy Application'){
                 steps{
