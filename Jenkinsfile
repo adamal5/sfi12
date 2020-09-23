@@ -39,7 +39,7 @@ EOF
                             sh '''
                             ssh adamakcontact@35.189.85.9 <<EOF
                             cd SFIA2/frontend
-                            docker build frontend . 
+                            docker build -t frontend . 
 EOF
                             '''
                         }
