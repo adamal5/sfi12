@@ -24,7 +24,7 @@ EOF
             stage('clone repo and change directory'){
                 steps{
                     sh '''
-                    adamakcontact@35.239.242.137 <<EOF
+                    ssh adamakcontact@35.239.242.137 <<EOF
                     git clone https://github.com/adamal5/SFIA2.git
                     cd SFIA2
 EOF
