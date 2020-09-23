@@ -9,7 +9,7 @@ pipeline{
             stage('Clone Repository'){
                 steps{
                     sh '''
-                      ssh -t adamakcontact@35.189.85.9 /bin/bash <<EOF
+                      ssh -t adamakcontact@35.239.242.137 /bin/bash <<EOF
                       cd SFIA2 || git clone https://github.com/adamal5/SFIA2/
 EOF
                       '''
@@ -18,7 +18,7 @@ EOF
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
-                     ssh -t adamakcontact@35.189.85.9 /bin/bash <<EOF
+                     ssh -t adamakcontact@35.239.242.137 /bin/bash <<EOF
                      cd SFIA2
                      curl https://get.docker.com | sudo bash 
                      sudo usermod -a -G docker jenkins
@@ -31,36 +31,11 @@ EOF
                      '''
                 }
             }
-            stage('Build FrontImage'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            sh '''
-                            ssh -t adamakcontact@35.189.85.9 <<EOF
-                            cd SFIA2/frontend
-                            docker build -t adamal5/frontend .
-EOF                            
-                            '''
-                        }
-                    }
-                }          
-            }
-            stage('Tag & Push Front Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                image.push("${env.app_version}")
-                            }
-                        }
-                    }
-                }          
-            }       
-              
+
             stage('Deploy Application'){
                 steps{
                     sh '''
-                    ssh -t adamakcontact@35.189.85.9 /bin/bash <<EOF
+                    ssh -t adamakcontact@35.239.242.137 /bin/bash <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password' 
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
