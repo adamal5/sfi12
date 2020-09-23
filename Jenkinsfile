@@ -55,7 +55,7 @@ EOF
                         }
                     }
                 }          
-            }        
+            }       
               
             stage('Deploy Application'){
                 steps{
