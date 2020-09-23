@@ -8,7 +8,7 @@ pipeline{
             stage('Install Docker and Docker-Compose'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.189.85.9 <<EOF
+                    ssh adamakcontact@35.197.234.90 <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -25,7 +25,7 @@ EOF
             stage('clone repo and change directory'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.189.85.9 <<EOF
+                    ssh adamakcontact@35.197.234.90 <<EOF
                     git clone https://github.com/adamal5/SFIA2.git
                     cd SFIA2
 EOF
@@ -53,7 +53,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh adamakcontact@35.189.85.9 <<EOF
+                            ssh adamakcontact@35.197.234.90 <<EOF
                             cd SFIA2/backend
                             docker build -t backend . 
 EOF
@@ -68,7 +68,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh adamakcontact@35.189.85.9 <<EOF
+                            ssh adamakcontact@35.197.234.90 <<EOF
                             cd SFIA2/database
                             docker build -t mysql . 
 EOF
@@ -80,7 +80,7 @@ EOF
             stage('Deploy App'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.189.85.9 <<EOF
+                    ssh adamakcontact@35.197.234.90 <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password' 
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
@@ -92,7 +92,19 @@ EOF
 EOF
                     '''
                     }
-                }          
+                }   
+            stage('Run Test'){
+                steps{
+                    sh '''
+                    ssh adamakcontact@35.197.234.90 <<EOF
+                    sudo pip install pytest
+                    pytest
+
+EOF
+                    '''
+                    }
+                }                 
+                
             }
 
         } 
