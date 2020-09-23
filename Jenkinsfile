@@ -35,9 +35,12 @@ EOF
                 steps{
                     script{
                         if (env.rollback == 'false'){
-                            sh "ssh -t adamakcontact@35.189.85.9 /bin/bash"
+                            sh '''
+                            ssh -t adamakcontact@35.189.85.9 /bin/bash <<EOF
                             cd SFIA2/frontend
                             image = docker.build("adamal5/chaperoo-frontend")
+EOF                            
+                            '''
                         }
                     }
                 }          
