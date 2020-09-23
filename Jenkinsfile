@@ -98,10 +98,10 @@ EOF
                     sh '''
                     ssh adamakcontact@35.197.234.90 <<EOF
                     cd SFIA2/frontend/tests
-                    docker-compose exec frontend pytest --cov application > frontend-test.txt
+                    docker-compose exec -T frontend pytest --cov application > frontend-test.txt
                     cd
                     cd SFIA2/backend/tests
-                    docker-compose exec backend pytest --cov application > backend-test.txt
+                    docker-compose exec -T backend pytest --cov application > backend-test.txt
 
 EOF
                     '''
