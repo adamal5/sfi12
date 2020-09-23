@@ -96,9 +96,7 @@ EOF
                 steps{
                     sh '''
                     ssh adamakcontact@35.197.234.90 <<EOF
-                    cd SFIA2
-                    cd frontend
-                    cd tests
+                    cd SFIA2/frontend/tests
                     pytest
 
 EOF
