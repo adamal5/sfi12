@@ -8,9 +8,9 @@ pipeline{
             stage('Install Docker and Docker-Compose'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.239.242.137 <<EOF
+                    ssh adamakcontact@35.246.79.253 <<EOF
                     curl https://get.docker.com | sudo bash 
-                    sudo usermod -aG docker jenkins
+                    sudo usermod -aG docker $(whoami)
                     sudo apt update
                     sudo apt install -y curl jq
                     version=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.tag_name')
@@ -24,7 +24,7 @@ EOF
             stage('clone repo and change directory'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.239.242.137 <<EOF
+                    ssh adamakcontact@35.246.79.253 <<EOF
                     git clone https://github.com/adamal5/SFIA2.git
                     cd SFIA2
 EOF
@@ -37,7 +37,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh adamakcontact@35.239.242.137 <<EOF
+                            ssh adamakcontact@35.246.79.253 <<EOF
                             cd SFIA2/frontend
                             docker build -t adamal5/frontend . 
 EOF
@@ -52,7 +52,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh adamakcontact@35.239.242.137 <<EOF
+                            ssh adamakcontact@35.246.79.253 <<EOF
                             cd SFIA2/backend
                             docker build -t adamal5/backend . 
 EOF
@@ -67,7 +67,7 @@ EOF
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh adamakcontact@35.239.242.137 <<EOF
+                            ssh adamakcontact@35.246.79.253 <<EOF
                             cd SFIA2/database
                             docker build -t adamal5/mysql . 
 EOF
@@ -79,7 +79,7 @@ EOF
             stage('Deploy App'){
                 steps{
                     sh '''
-                    ssh adamakcontact@35.239.242.137 <<EOF
+                    ssh adamakcontact@35.246.79.253 <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password' 
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
