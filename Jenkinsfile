@@ -47,36 +47,6 @@ EOF
                     }
                 }          
             }
-
-            stage('Build backend Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            sh '''
-                            ssh adamakcontact@35.189.85.9 <<EOF
-                            cd SFIA2/backend
-                            docker build -t backend . 
-EOF
-                            '''
-                        }
-                    }
-                }          
-            }
-
-            stage('Build database Image'){
-                steps{
-                    script{
-                        if (env.rollback == 'false'){
-                            sh '''
-                            ssh adamakcontact@35.189.85.9 <<EOF
-                            cd SFIA2/database
-                            docker build -t mysql . 
-EOF
-                            '''
-                        }
-                    }
-                }          
-            }
             stage('Deploy App'){
                 steps{
                     sh '''
@@ -93,12 +63,20 @@ EOF
                     '''
                     }
                 }   
-            stage('Run Test'){
+            stage('Run Frontend Test'){
                 steps{
                     sh '''
                     ssh adamakcontact@35.189.85.9 <<EOF
                     cd SFIA2/frontend/tests
-                    docker-compose exec -T frontend pytest --cov application > frontend-test.txt && cd
+                    docker-compose exec -T frontend pytest --cov application > frontend-test.txt
+EOF
+                    '''
+                    }
+                }                 
+            stage('Run Backend Test'){
+                steps{
+                    sh '''
+                    ssh adamakcontact@35.189.85.9 <<EOF
                     cd SFIA2/backend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
@@ -106,7 +84,6 @@ EOF
                     '''
                     }
                 }                 
-                
             }
 
         } 
