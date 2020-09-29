@@ -22,11 +22,11 @@ EOF
   
             }
         }
-            stage('Clone Git Repo'){
+            stage('Clone Git Repo If Not Present or CD into Folder'){
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-17-178 <<EOF
-                    git clone https://github.com/adamal5/SFIA2.git
+                    git clone https://github.com/adamal5/SFIA2.git || cd SFIA2
 EOF
                     '''
             }
