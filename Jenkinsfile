@@ -5,7 +5,7 @@ pipeline{
             rollback = 'false'
         }
         stages{
-            stage('Install Docker and Docker-Compose'){
+            stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-17-178 <<EOF
@@ -22,12 +22,11 @@ EOF
   
             }
         }
-            stage('clone repo and change directory'){
+            stage('Clone Git Repo'){
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-17-178 <<EOF
                     git clone https://github.com/adamal5/SFIA2.git
-                    cd SFIA2
 EOF
                     '''
             }
@@ -67,6 +66,7 @@ EOF
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-17-178 <<EOF
+                    sleep 20
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
 EOF
