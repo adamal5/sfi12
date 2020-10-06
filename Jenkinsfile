@@ -23,7 +23,7 @@ pipeline{
             stage('Clone Git Repo If Not Present or CD into Folder'){
                 steps{
                     sh '''
-                    git clone https://github.com/adamal5/SFIA2.git || cd SFIA2
+                    cd SFIA2 || git clone https://github.com/adamal5/SFIA2.git 
                     '''
             }
         }
