@@ -30,9 +30,9 @@ pipeline{
       
             stage('Build FrontImage'){
                 steps{ 
-                    sh 'cd SFIA2/frontend'
                     script{
                         if (env.rollback == 'false'){
+                            sh 'cd SFIA2/frontend'
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
                     }
@@ -41,9 +41,9 @@ pipeline{
                 
             stage('Build Backend Image'){
                 steps{ 
-                    sh ' cd SFIA2/backend'
                     script{
                         if (env.rollback == 'false'){
+                            sh ' cd SFIA2/backend'
                             backendimage = docker.build("adamal5/sfia2-backend")
                         }
                     }
@@ -51,10 +51,10 @@ pipeline{
             }  
                 
             stage('Build Database Image'){
-                steps{
-                    sh ' cd SFIA2/database '    
+                steps{   
                     script{
                         if (env.rollback == 'false'){
+                            sh ' cd SFIA2/database ' 
                             databaseimage = docker.build("adamal5/sfia2-database")
                         }
                     }
