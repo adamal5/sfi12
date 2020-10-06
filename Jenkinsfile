@@ -32,7 +32,7 @@ pipeline{
                 steps{ 
                     script{
                         if (env.rollback == 'false'){
-                            sh 'cd SFIA2/frontend'
+                            sh cd SFIA2/frontend
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
                     }
@@ -43,7 +43,7 @@ pipeline{
                 steps{ 
                     script{
                         if (env.rollback == 'false'){
-                            sh ' cd SFIA2/backend'
+                            cd SFIA2/backend
                             backendimage = docker.build("adamal5/sfia2-backend")
                         }
                     }
@@ -54,7 +54,7 @@ pipeline{
                 steps{   
                     script{
                         if (env.rollback == 'false'){
-                            sh ' cd SFIA2/database ' 
+                            cd SFIA2/database
                             databaseimage = docker.build("adamal5/sfia2-database")
                         }
                     }
@@ -66,9 +66,9 @@ pipeline{
                     script{
                         if (env.rollback == 'false'){
                             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                frontend-image.push("${env.app_version}")
-                                backend-image.push("${env.app_version}")
-                                database-image.push("${env.app_version}")    
+                                frontendimage.push("${env.app_version}")
+                                backendimage.push("${env.app_version}")
+                                databaseimage.push("${env.app_version}")    
                             }
                         }
                     }
