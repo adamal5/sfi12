@@ -8,7 +8,6 @@ pipeline{
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-17-178 <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -17,7 +16,6 @@ pipeline{
                     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
                     sudo chmod 666 /var/run/docker.sock
-EOF
                     '''
   
             }
@@ -25,23 +23,56 @@ EOF
             stage('Clone Git Repo If Not Present or CD into Folder'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-17-178 <<EOF
                     git clone https://github.com/adamal5/SFIA2.git || cd SFIA2
-EOF
                     '''
             }
         }
       
-            stage('Build frontend Image'){
+            stage('Build FrontImage'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
                             sh '''
-                            ssh ubuntu@ip-172-31-17-178 <<EOF
-                            cd SFIA2/frontend
-                            docker build -t frontend . 
-EOF
+                            frontend-image = docker.build("adamal5/sfia2-frontend")
                             '''
+                        }
+                    }
+                }          
+            }
+                
+            stage('Build Backend Image'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            sh '''
+                            backend-image = docker.build("adamal5/sfia2-backend")
+                            '''
+                        }
+                    }
+                }          
+            }  
+                
+            stage('Build Database Image'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            sh '''
+                            database-image = docker.build("adamal5/sfia2-databas")
+                            '''
+                        }
+                    }
+                }          
+            } 
+                
+            stage('Tag & Push Images'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+                                frontend-image.push("${env.app_version}")
+                                backend-image.push("${env.app_version}")
+                                database-image.push("${env.app_version}")    
+                            }
                         }
                     }
                 }          
@@ -57,6 +88,7 @@ EOF
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
                     export app_version=v1
+                    docker-compose pull
                     docker-compose up -d
 EOF
                     '''
