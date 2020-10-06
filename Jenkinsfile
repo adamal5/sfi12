@@ -42,12 +42,10 @@ pipeline{
             }
                 
             stage('Build Backend Image'){
-                steps{
+                steps{ 
+                    sh ' cd SFIA2/backend'
                     script{
                         if (env.rollback == 'false'){
-                            sh '''
-                            cd SFIA2/backend
-                            '''
                             backend-image = docker.build("adamal5/sfia2-backend")
                         }
                     }
