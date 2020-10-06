@@ -34,7 +34,7 @@ pipeline{
                         if (env.rollback == 'false'){
                             sh '''
                             cd SFIA2/frontend
-                            frontend-image = docker.build("adamal5/sfia2-frontend")
+                            frontendimage = docker.build("adamal5/sfia2-frontend")
                             '''
                         }
                     }
@@ -46,7 +46,7 @@ pipeline{
                     sh ' cd SFIA2/backend'
                     script{
                         if (env.rollback == 'false'){
-                            backend-image = docker.build("adamal5/sfia2-backend")
+                            backendimage = docker.build("adamal5/sfia2-backend")
                         }
                     }
                 }          
@@ -59,7 +59,7 @@ pipeline{
                             sh '''
                             cd SFIA2/database
                             '''
-                            database-image = docker.build("adamal5/sfia2-databas")
+                            databaseimage = docker.build("adamal5/sfia2-databas")
                         }
                     }
                 }          
