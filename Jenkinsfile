@@ -40,37 +40,59 @@ pipeline{
                 }          
             }
 
+            stage('Tag & Push FrontImage'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+                                frontendimage.push("${env.app_version}")    
+                            }
+                        }
+                    }
+                }          
+            }                
+
             stage('Build BackImage'){
                 steps{      
                     script{
                         dir("SFIA2/backend"){
                           if (env.rollback == 'false'){
-                            frontendimage = docker.build("adamal5/sfia2-backend")
+                            backendimage = docker.build("adamal5/sfia2-backend")
                         }
                       }          
                     }
                 }          
-            }                
+            }   
+                
+            stage('Tag & Push BackImages'){
+                steps{
+                    script{
+                        if (env.rollback == 'false'){
+                            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
+                                backendimage.push("${env.app_version}")  
+                            }
+                        }
+                    }
+                }          
+            } 
  
             stage('Build DatabaseImage'){
                 steps{      
                     script{
                         dir("SFIA2/database"){
                           if (env.rollback == 'false'){
-                            frontendimage = docker.build("adamal5/sfia2-database")
+                            databaseimage = docker.build("adamal5/sfia2-database")
                         }
                       }          
                     }
                 }          
             }                
 
-            stage('Tag & Push Images'){
+            stage('Tag & Push DatabaseImage'){
                 steps{
                     script{
                         if (env.rollback == 'false'){
                             docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials'){
-                                frontendimage.push("${env.app_version}")
-                                backendimage.push("${env.app_version}")
                                 databaseimage.push("${env.app_version}")    
                             }
                         }
