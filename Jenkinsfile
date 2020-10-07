@@ -109,7 +109,7 @@ pipeline{
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
                     export app_version=v1
-                    docker-compose pull
+                    docker pull
                     docker-compose up -d
 EOF
                     '''
