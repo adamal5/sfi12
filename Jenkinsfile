@@ -128,7 +128,9 @@ EOF
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
                     export app_version=v1
-                    docker pull
+                    docker pull adamal5/sfia2-frontend
+                    docker pull adamal5/sfia2-backend
+                    docker pull adamal5/sfia2-database
                     docker-compose up -d
 EOF
                     '''
