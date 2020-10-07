@@ -39,29 +39,31 @@ pipeline{
                     }
                 }          
             }
-                
-            stage('Build Backend Image'){
-                steps{ 
-                    sh "cd SFIA2/backend"    
+
+            stage('Build BackImage'){
+                steps{      
                     script{
-                        if (env.rollback == 'false'){
-                            backendimage = docker.build("adamal5/sfia2-backend")
+                        dir("SFIA2/backend"){
+                          if (env.rollback == 'false'){
+                            frontendimage = docker.build("adamal5/sfia2-backend")
                         }
+                      }          
                     }
                 }          
-            }  
-                
-            stage('Build Database Image'){
-                steps{
-                    sh "cd SFIA2/database"     
+            }                
+ 
+            stage('Build DatabaseImage'){
+                steps{      
                     script{
-                        if (env.rollback == 'false'){
-                            databaseimage = docker.build("adamal5/sfia2-database")
+                        dir("SFIA2/database"){
+                          if (env.rollback == 'false'){
+                            frontendimage = docker.build("adamal5/sfia2-database")
                         }
+                      }          
                     }
                 }          
-            } 
-                
+            }                
+
             stage('Tag & Push Images'){
                 steps{
                     script{
@@ -78,7 +80,7 @@ pipeline{
             stage('Deploy App'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172.31.8.181 <<EOF
+                    ssh ubuntu@ip-172-31-4-202 <<EOF
                     cd SFIA2
                     export DB_PASSWORD='password'
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
@@ -95,7 +97,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172.31.8.181 <<EOF
+                    ssh ubuntu@ip-172-31-4-202 <<EOF
                     sleep 20
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -106,7 +108,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172.31.8.181 <<EOF
+                    ssh ubuntu@ip-172-31-4-202 <<EOF
                     cd SFIA2/backend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
