@@ -29,13 +29,13 @@ pipeline{
         }
       
             stage('Build FrontImage'){
-                steps{ 
-                    sh "cd SFIA2/frontend"      
+                steps{      
                     script{
-                        if (env.rollback == 'false'){
-                            sh "cd SFIA2/frontend"
+                        dir(SFIA2/frontend){
+                          if (env.rollback == 'false'){
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
+                      }          
                     }
                 }          
             }
