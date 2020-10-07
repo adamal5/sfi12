@@ -33,6 +33,7 @@ pipeline{
                     sh "cd SFIA2/frontend"      
                     script{
                         if (env.rollback == 'false'){
+                            sh "cd SFIA2/frontend"
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
                     }
