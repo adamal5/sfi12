@@ -125,8 +125,8 @@ EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     export DB_PASSWORD='password'
-                    export DATABASE_URI='mysql+pymysql://admin:ab5gh78af@terraform-20201007103628063600000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306'
-                    export TEST_DATABASE_URI='mysql+pymysql://admin:ab5gh78hj@terraform-20201007103628065000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306'
+                    export DATABASE_URI='mysql+pymysql://admin:ab5gh78af@terraform-20201007103628063600000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/db'
+                    export TEST_DATABASE_URI='mysql+pymysql://admin:ab5gh78hj@terraform-20201007103628065000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/db'
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
                     docker pull adamal5/sfia2-frontend:v1
