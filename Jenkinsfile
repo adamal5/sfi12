@@ -127,10 +127,9 @@ EOF
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
                     export SECRET_KEY='abcd'
                     export MYSQL_ROOT_PASSWORD='password'
-                    export app_version=v1
-                    docker pull adamal5/sfia2-frontend
-                    docker pull adamal5/sfia2-backend
-                    docker pull adamal5/sfia2-database
+                    docker pull adamal5/sfia2-frontend:v1
+                    docker pull adamal5/sfia2-backend:v1
+                    docker pull adamal5/sfia2-database:v1
                     docker-compose up -d
 EOF
                     '''
