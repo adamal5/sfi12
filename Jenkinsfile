@@ -130,7 +130,7 @@ EOF
                     export app_version=v1
                     docker pull
                     docker-compose up -d
-EOF
+EOF 
                     '''
                     }
                 }   
