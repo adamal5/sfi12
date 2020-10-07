@@ -102,8 +102,7 @@ pipeline{
             stage('Deploy App'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 <<EOF
-                    cd SFIA2
+                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
                     export DB_PASSWORD='password'
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
@@ -119,9 +118,8 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 <<EOF
+                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
                     sleep 20
-                    cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
 EOF
                     '''
@@ -130,8 +128,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 <<EOF
-                    cd SFIA2/backend/tests
+                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
 EOF
