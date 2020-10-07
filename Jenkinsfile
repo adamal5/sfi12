@@ -123,6 +123,7 @@ EOF
                     sh '''
                     ssh ubuntu@ip-172-31-4-202 -y <<EOF
                     git clone https://github.com/adamal5/SFIA2
+                    cd SFIA2
                     export DB_PASSWORD='password'
                     export DATABASE_URI='mysql+pymysql://root:password@mysql:3306/users'
                     export TEST_DATABASE_URI='mysql+pymysql://root:password@mysql:3306/testdb'
@@ -141,7 +142,8 @@ EOF
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-4-202 -y <<EOF
-                    sleep 20
+                    sleep 30
+                    cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
 EOF
                     '''
@@ -151,6 +153,7 @@ EOF
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-4-202 -y <<EOF
+                    cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
 EOF
