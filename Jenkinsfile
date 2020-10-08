@@ -119,14 +119,14 @@ EOF
   
             stage('Environment Variables'){
                 steps{
-                    sh '''
+                    sh """#!/bin/bash
                             ssh ubuntu@ip-172-31-23-155 -y <<EOF
                             export ${env.DATABASE_URI}
                             export ${env.TEST_DATABASE_URI}
                             export ${env.SECRET_KEY}
                             export ${env.MYSQL_ROOT_PASSWORD}
 EOF
-                    '''
+                    """
                     }
                 }          
             
