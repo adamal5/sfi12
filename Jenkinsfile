@@ -108,7 +108,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
+                    ssh ubuntu@ip-172-31-23-155 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -122,11 +122,24 @@ EOF
   
             }
         }            
-                
-            stage('Deploy App'){
+  
+            stage('Environment Variables'){
                 steps{
+                    script{
+                            ssh ubuntu@ip-172-31-23-155 -y <<EOF
+                            export ${env.DATABASE_URI}
+                            export ${env.TEST_DATABASE_URI}
+                            export ${env.SECRET_KEY}
+                            export ${env.MYSQL_ROOT_PASSWORD}
+EOF
+                    }
+                }          
+            } 
+                  
+            stage('Deploy App'){
+                steps{    
                     sh '''
-                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
+                    ssh ubuntu@ip-172-31-23-155 -y <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     docker pull adamal5/sfia2-frontend:v1
@@ -141,7 +154,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
+                    ssh ubuntu@ip-172-31-23-155 -y <<EOF
                     sleep 30
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -152,7 +165,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
+                    ssh ubuntu@ip-172-31-23-155 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
