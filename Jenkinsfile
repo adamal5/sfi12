@@ -29,7 +29,7 @@ pipeline{
                 steps{
                     sh '''
                     cd
-                    git clone https://github.com/adamal5/SFIA2 || cd SFIA2
+                    cd SFIA2
                     '''
             }
         }
