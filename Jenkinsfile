@@ -9,7 +9,7 @@ pipeline{
             MYSQL_ROOT_PASSWORD = credentials('mysql_root_password')
         }
         
-                
+          stages{      
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
@@ -161,3 +161,4 @@ EOF
                     }
                 }                 
             }
+}
