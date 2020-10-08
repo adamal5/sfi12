@@ -3,10 +3,6 @@ pipeline{
         environment {
             app_version = 'v1'
             rollback = 'false'
-            DATABASE_URI= credentials('database_uri')
-            TEST_DATABASE_URI= credentials('testdatabase_uri')
-            SECRET_KEY = credentials('secret_key')
-            MYSQL_ROOT_PASSWORD = credentials('mysql_root_password')
         }
         
           stages{      
