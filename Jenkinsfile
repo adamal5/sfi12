@@ -25,14 +25,6 @@ pipeline{
   
             }
         }
-            stage('Clone Git Repo If Not Present or CD into Folder'){
-                steps{
-                    sh '''
-                    cd
-                    cd SFIA2
-                    '''
-            }
-        }
       
             stage('Build FrontImage'){
                 steps{      
