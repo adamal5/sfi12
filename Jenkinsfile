@@ -135,7 +135,7 @@ EOF
                     '''
                     }
                 }          
-            } 
+            
                   
             stage('Deploy App'){
                 steps{    
