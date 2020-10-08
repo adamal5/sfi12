@@ -3,8 +3,13 @@ pipeline{
         environment {
             app_version = 'v1'
             rollback = 'false'
+            DATABASE_URI= credentials('database_uri')
+            TEST_DATABASE_URI= credentials('testdatabase_uri')
+            SECRET_KEY = credentials('secret_key')
+            MYSQL_ROOT_PASSWORD = credentials('mysql_root_password')
         }
-        stages{
+        
+                
             stage('Install Docker and Docker Compose'){
                 steps{
                     sh '''
@@ -23,7 +28,7 @@ pipeline{
             stage('Clone Git Repo If Not Present or CD into Folder'){
                 steps{
                     sh '''
-                    cd SFIA2
+                    git clone https://github.com/adamal5/SFIA2 || cd SFIA2
                     '''
             }
         }
@@ -103,7 +108,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
+                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -121,7 +126,7 @@ EOF
             stage('Deploy App'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
+                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     docker pull adamal5/sfia2-frontend:v1
@@ -136,7 +141,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
+                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
                     sleep 30
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -147,7 +152,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-4-202 -y <<EOF
+                    ssh ubuntu@ip-172-31-16-11 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
