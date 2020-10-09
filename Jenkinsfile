@@ -141,7 +141,8 @@ EOF
                         ssh ubuntu@ip-172-31-20-121 -y <<EOF
                         export TOKEN="$(aws rds generate-db-auth-token --hostname terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port 3306 --username aws-module --region=eu-west-2)"
                         wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-                        mysql --host=terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=/sample_dir/rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
+                        mysql --host=terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=/rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
+                        echo "input" | command
                         USE users;
                         DROP TABLE IF EXISTS `users`;
                         CREATE TABLE `users` (
