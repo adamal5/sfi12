@@ -117,15 +117,11 @@ EOF
             }
         }            
         
-            stage('Install mySQL client and Create table in Database'){
+            stage('Install mySQL client'){
                 steps{
                     sh '''
                     ssh ubuntu@ip-172-31-20-121 -y <<EOF
                     sudo apt update
-                    sudo apt install zip -y
-                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                    unzip awscliv2.zip
-                    sudo ./aws/install
                     sudo apt install mysql-client-core-5.7 -y
                     sudo apt install wget -y
 EOF
@@ -139,10 +135,8 @@ EOF
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
                         sh '''
                         ssh ubuntu@ip-172-31-20-121 -y <<EOF
-                        export TOKEN="$(aws rds generate-db-auth-token --hostname terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port 3306 --username aws-module --region=eu-west-2)"
-                        wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-                        mysql --host=terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
-                        echo "input" | command
+                        mysql -h terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p <<EOS
+                        echo "ab5gh78af" | command
                         USE users;
                         DROP TABLE IF EXISTS `users`;
                         CREATE TABLE `users` (
