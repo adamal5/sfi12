@@ -126,6 +126,7 @@ EOF
                     unzip awscliv2.zip
                     sudo ./aws/install
                     sudo apt install mysql-client-core-5.7 -y
+                    sudo apt install weget -y
 EOF
                     '''
   
@@ -137,14 +138,16 @@ EOF
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
                         sh '''
                         ssh ubuntu@ip-172-31-10-207 -y <<EOF
-                        mysql -h terraform-20201009102540301000000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p <<EOS
-                        ab5gh78af
+                        export TOKEN="$(aws rds generate-db-auth-token --hostname terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port 3306 --username aws-module --region=eu-west-2)"
+                        wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+                        mysql --host=terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=/sample_dir/rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
                         USE users;
                         DROP TABLE IF EXISTS `users`;
                         CREATE TABLE `users` (
                           `userName` varchar(30) NOT NULL
                         );
                         INSERT INTO `users` VALUES ('Bob'),('Jay'),('Matt'),('Ferg'),('Mo');
+                        exit
 EOS
 EOF
                         '''
