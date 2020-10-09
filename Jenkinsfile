@@ -124,19 +124,6 @@ EOF
                     ssh ubuntu@ip-172-31-10-207 -y <<EOF
                     sudo apt update
                     sudo apt install mysql-client-core-5.7 -y
-                    mysql -h terraform-20201009083922769400000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p ab5gh78hj
-                    CREATE DATABASE testdb;
-                    CREATE DATABASE users;
-                    USE users;
-
-                    DROP TABLE IF EXISTS `users`;
-
-                    CREATE TABLE `users` (
-  `                   userName` varchar(30) NOT NULL
-                    );
-
-                    INSERT INTO `users` VALUES ('Bob'),('Jay'),('Matt'),('Ferg'),('Mo');
-                    exit 
 EOF
                     '''
   
