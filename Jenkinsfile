@@ -133,10 +133,11 @@ EOF
             stage('Create Tables') {
                 steps {
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
+                        with
                         sh '''
                         ssh ubuntu@ip-172-31-20-121 -y <<EOF
                         mysql -h terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p <<EOS
-                        echo "ab5gh78af" | command
+                        echo "ab5gh78af"
                         USE users;
                         DROP TABLE IF EXISTS `users`;
                         CREATE TABLE `users` (
