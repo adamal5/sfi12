@@ -6,6 +6,7 @@ pipeline{
         environment {
             app_version = 'v1'
             rollback = 'false'
+            
         }
         
           stages{      
@@ -160,6 +161,9 @@ EOF
                     sh '''
                     ssh ubuntu@ip-172-31-10-207 -y <<EOF
                     cd SFIA2 || git clone https://github.com/adamal5/SFIA2
+                    export DATABASE_URI= ${DATABSE_URI}
+                    export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
+                    export SECRET_KEY= ${SECRET}
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
