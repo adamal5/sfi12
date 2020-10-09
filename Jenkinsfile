@@ -156,8 +156,7 @@ EOF
                 steps{    
                     sh '''
                     ssh ubuntu@ip-172-31-10-207 -y <<EOF
-                    git clone https://github.com/adamal5/SFIA2
-                    cd SFIA2
+                    cd SFIA2 || git clone https://github.com/adamal5/SFIA2
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
