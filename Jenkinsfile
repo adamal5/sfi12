@@ -127,7 +127,7 @@ EOF
                     unzip awscliv2.zip
                     sudo ./aws/install
                     sudo apt install mysql-client-core-5.7 -y
-                    sudo apt install weget -y
+                    sudo apt install wget -y
 EOF
                     '''
   
