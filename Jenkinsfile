@@ -1,5 +1,8 @@
 pipeline{
         agent any
+        options {
+          skipDefaultCheckout true
+        }
         environment {
             app_version = 'v1'
             rollback = 'false'
@@ -17,7 +20,7 @@ pipeline{
                     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
                     sudo chmod 666 /var/run/docker.sock
-                    cd
+                    git clone https://github.com/adamal5/SFIA2 
                     cd SFIA2
                     '''
   
@@ -99,7 +102,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-30-189 -y <<EOF
+                    ssh ubuntu@ip-172-31-24-23 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -114,12 +117,36 @@ EOF
             }
         }            
         
+            stage('Install mySQL client and Create table in Database'){
+                steps{
+                    sh '''
+                    ssh ubuntu@ip-172-31-24-23 -y <<EOF
+                    sudo apt update
+                    sudo apt install mysql-client-core-5.7 -y
+                    mysql -h terraform-20201009083922769400000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p ab5gh78hj
+                    CREATE DATABASE testdb;
+                    CREATE DATABASE users;
+                    USE users;
+
+                    DROP TABLE IF EXISTS `users`;
+
+                    CREATE TABLE `users` (
+  `                   userName` varchar(30) NOT NULL
+                    );
+
+                    INSERT INTO `users` VALUES ('Bob'),('Jay'),('Matt'),('Ferg'),('Mo');
+                    exit 
+EOF
+                    '''
+  
+            }
+        }      
             
                   
             stage('Deploy App'){
                 steps{    
                     sh '''
-                    ssh ubuntu@ip-172-31-30-189 -y <<EOF
+                    ssh ubuntu@ip-172-31-24-23 -y <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     docker pull adamal5/sfia2-frontend:v1
@@ -134,7 +161,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-30-189 -y <<EOF
+                    ssh ubuntu@ip-172-31-24-23 -y <<EOF
                     sleep 15
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -145,7 +172,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-30-189 -y <<EOF
+                    ssh ubuntu@ip-172-31-24-23 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
