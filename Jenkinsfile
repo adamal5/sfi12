@@ -20,9 +20,7 @@ pipeline{
                     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
                     sudo chmod +x /usr/local/bin/docker-compose
                     sudo chmod 666 /var/run/docker.sock
-                    git clone https://github.com/adamal5/SFIA2
-                    sudo chmod 777 SFIA2
-                    cd SFIA2
+                    git clone https://github.com/adamal5/SFIA2 || cd SFIA2
                     '''
   
             }
@@ -123,13 +121,36 @@ EOF
                     sh '''
                     ssh ubuntu@ip-172-31-10-207 -y <<EOF
                     sudo apt update
+                    sudo apt install zip-y
+                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                    unzip awscliv2.zip
+                    sudo ./aws/install
                     sudo apt install mysql-client-core-5.7 -y
 EOF
                     '''
   
             }
-        }      
-            
+        } 
+                  
+            stage('Create Tables') {
+                steps {
+                    withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
+                        sh '''
+                        ssh ubuntu@ip-172-31-10-207 -y <<EOF
+                        mysql -h terraform-20201009102540301000000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p <<EOS
+                        ab5gh78af
+                        USE users;
+                        DROP TABLE IF EXISTS `users`;
+                        CREATE TABLE `users` (
+                          `userName` varchar(30) NOT NULL
+                        );
+                        INSERT INTO `users` VALUES ('Bob'),('Jay'),('Matt'),('Ferg'),('Mo');
+EOS
+EOF
+                        '''
+                    }
+                }
+            }
                   
             stage('Deploy App'){
                 steps{    
