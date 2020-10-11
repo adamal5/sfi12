@@ -1,0 +1,56 @@
+---
+- hosts: jenkins-vm
+  become: true
+  tasks:
+     - name: Update App
+       apt: update_cache=yes
+
+     - name: Install Java, Wget and Git
+       apt:
+         pkg:
+         - openjdk-8-jre
+         - wget
+         - git
+         - curl
+
+
+     - name: Allow 'jenkins' sudo access
+       lineinfile:
+         dest: /etc/sudoers
+         state: present
+         regexp: '^%jenkins'
+         line: '%jenkins ALL=(ALL) NOPASSWD:ALL'
+         validate: 'visudo -cf %s'
+
+     - name: Create a login user 
+       user:
+         name: jenkins
+         password: '???'
+         state: present
+         shell: /bin/bash       # Defaults to /bin/bash
+         system: no             # Defaults to no
+         createhome: yes        # Defaults to yes
+         home: /home/jenkins  # Defaults to /home/<username>
+
+     - name: ensure the jenkins apt repository key is installed
+       apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key state=present
+       become: yes
+
+     - name: ensure the repository is configured
+       apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+       become: yes
+
+     - name: ensure jenkins is installed
+       apt: name=jenkins update_cache=yes
+       become: yes
+
+
+     - name: Change Jenkins JAVA options
+       lineinfile:
+         dest=/etc/default/jenkins
+         regexp=^JAVA_ARGS=
+         line=JAVA_ARGS="-Djenkins.install.runSetupWizard=false"
+       become: true
+
+     - name: ensure jenkins is running
+       service: name=jenkins state=started
