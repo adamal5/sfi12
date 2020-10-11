@@ -102,7 +102,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-20-121 -y <<EOF
+                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -117,26 +117,32 @@ EOF
             }
         }            
         
-            stage('Install mySQL client'){
+            stage('Install mySQL client & AWS CLI'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-20-121 -y <<EOF
+                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
                     sudo apt update
                     sudo apt install mysql-client-core-5.7 -y
                     sudo apt install wget -y
+                    sudo apt install curl -y
+                    sudo apt install zip -y
+                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                    unzip awscliv2.zip
+                    sudo ./aws/install
 EOF
                     '''
   
             }
         } 
                   
-            stage('Create Tables') {
+            stage('Access Database & Create Tables') {
                 steps {
                     withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
                         sh '''
-                        ssh ubuntu@ip-172-31-20-121 -y <<EOF
-                        mysql -h terraform-20201009121742091800000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com -P 3306 -u admin -p <<EOS
-                        echo "ab5gh78af"
+                        ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                        wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+                        export TOKEN="$(aws rds generate-db-auth-token --hostname terraform-20201011084141186000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port 3306 --username aws-module --region=eu-west-2)"
+                        mysql --host=$terraform-20201011084141186000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
                         USE users;
                         DROP TABLE IF EXISTS `users`;
                         CREATE TABLE `users` (
@@ -154,7 +160,7 @@ EOF
             stage('Deploy App'){
                 steps{    
                     sh '''
-                    ssh ubuntu@ip-172-31-20-121 -y <<EOF
+                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
                     cd SFIA2 || git clone https://github.com/adamal5/SFIA2
                     export DATABASE_URI= ${DATABSE_URI}
                     export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
@@ -171,7 +177,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-20-121 -y <<EOF
+                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
                     sleep 15
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -182,7 +188,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-20-121 -y <<EOF
+                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
