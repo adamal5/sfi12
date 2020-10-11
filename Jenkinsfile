@@ -120,7 +120,8 @@ EOF
                 steps{    
                     sh '''
                     ssh ubuntu@ip-172-31-5-12 -y <<EOF
-                    cd SFIA2 || git clone https://github.com/adamal5/SFIA2
+                    git clone https://github.com/adamal5/SFIA2
+                    cd SFIA2
                     export DATABASE_URI= ${DATABSE_URI}
                     export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
                     export SECRET_KEY= ${SECRET_KEY}
