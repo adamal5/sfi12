@@ -6,7 +6,6 @@ pipeline{
         environment {
             app_version = 'v1'
             rollback = 'false'
-            
         }
         
           stages{      
@@ -117,43 +116,6 @@ EOF
             }
         }            
         
-            stage('Install mySQL client & AWS CLI'){
-                steps{
-                    sh '''
-                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
-                    sudo apt update
-                    sudo apt install mysql-client-core-5.7 -y
-                    sudo apt install wget -y
-                    sudo apt install curl -y
-                    sudo apt install zip -y
-EOF
-                    '''
-  
-            }
-        } 
-                  
-            stage('Access Database & Create Tables') {
-                steps {
-                    withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
-                        sh '''
-                        ssh ubuntu@ip-172-31-5-12 -y <<EOF
-                        wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
-                        export TOKEN="$(aws rds generate-db-auth-token --hostname terraform-20201011084141186000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port 3306 --username aws-module --region=eu-west-2)"
-                        mysql --host=terraform-20201011084141186000000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com --port=3306 --ssl-ca=rds-combined-ca-bundle.pem --enable-cleartext-plugin --user=admin --password=$TOKEN <<EOS
-                        USE users;
-                        DROP TABLE IF EXISTS `users`;
-                        CREATE TABLE `users` (
-                          `userName` varchar(30) NOT NULL
-                        );
-                        INSERT INTO `users` VALUES ('Bob'),('Jay'),('Matt'),('Ferg'),('Mo');
-                        exit
-EOS
-EOF
-                        '''
-                    }
-                }
-            }
-                  
             stage('Deploy App'){
                 steps{    
                     sh '''
@@ -161,7 +123,7 @@ EOF
                     cd SFIA2 || git clone https://github.com/adamal5/SFIA2
                     export DATABASE_URI= ${DATABSE_URI}
                     export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
-                    export SECRET_KEY= ${SECRET}
+                    export SECRET_KEY= ${SECRET_KEY}
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
