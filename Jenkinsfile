@@ -119,7 +119,7 @@ EOF
             stage('Install mySQL client & AWS CLI'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
                     sudo apt update
                     sudo apt install mysql-client-core-5.7 -y
                     sudo apt install wget -y
