@@ -120,11 +120,6 @@ EOF
         
             stage('Deploy App'){
                 steps{ 
-                    script {
-                      dir('./home/jenkins'){            
-                      load 'var.groovy'
-                      echo "${env.DATABASE_URI}"        
-                      }}
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
