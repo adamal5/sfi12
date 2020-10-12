@@ -128,7 +128,11 @@ EOF
                       env.SECRET_KEY = props.SECRET_KEY
                       }
                       }
-                    withEnv([env.DATABASE_URI = DATABASE_URI, env.TEST_DATABASE_URI = TEST_DATABASE_URI, env.SECRET_KEY = SECRET_KEY ]){
+                    withEnv([env.DATABAexport DATABASE_URI=mysql+pymysql://admin:ab5gh78af@terraform-20201012093348522200000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/users
+export TEST_DATABASE_URI=mysql+pymysql://admin:ab5gh78hj@terraform-20201012093348522400000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/test
+export SECRET_KEY=kjsfsjkdkjexport DATABASE_URI=mysql+pymysql://admin:ab5gh78af@terraform-20201012093348522200000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/users
+export TEST_DATABASE_URI=mysql+pymysql://admin:ab5gh78hj@terraform-20201012093348522400000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/test
+export SECRET_KEY=kjsfsjkdkjSE_URI = DATABASE_URI, env.TEST_DATABASE_URI = TEST_DATABASE_URI, env.SECRET_KEY = SECRET_KEY ]){
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
