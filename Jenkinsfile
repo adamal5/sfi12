@@ -8,6 +8,14 @@ pipeline{
             rollback = 'false'
         }
         
+         def loadEnvironmentVariables(path){
+           def props = readProperties file: path
+           keys= props.keyset()
+           for (keys in keys){
+                value= props["${key}"]
+                 env."${key}" = "${value}"
+           }
+         }        
           stages{      
             stage('Install Docker and Docker Compose'){
                 steps{
