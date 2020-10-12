@@ -7,15 +7,7 @@ pipeline{
             app_version = 'v1'
             rollback = 'false'
         }
-        
-         def loadEnvironmentVariables(path){
-           def props = readProperties file: path
-           keys= props.keyset()
-           for (keys in keys){
-                value= props["${key}"]
-                 env."${key}" = "${value}"
-           }
-         }        
+      
           stages{      
             stage('Install Docker and Docker Compose'){
                 steps{
@@ -136,7 +128,7 @@ EOF
                       env.SECRET_KEY = props.SECRET_KEY
                       }
                       }
-                    withEnv(['env.DATABASE_URI = DATABASE_URI','env.TEST_DATABASE_URI = TEST_DATABASE_URI', 'env.SECRET_KEY = SECRET_KEY', ]){
+                    withEnv([env.DATABASE_URI = DATABASE_URI, env.TEST_DATABASE_URI = TEST_DATABASE_URI, env.SECRET_KEY = SECRET_KEY ]){
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
