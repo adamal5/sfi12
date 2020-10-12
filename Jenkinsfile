@@ -115,24 +115,7 @@ EOF
   
             }
         }
-                  
-            stage('Install mySQL client & AWS CLI'){
-                steps{
-                    sh '''
-                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
-                    sudo apt update
-                    sudo apt install mysql-client-core-5.7 -y
-                    sudo apt install wget -y
-                    sudo apt install curl -y
-                    sudo apt install zip -y
-                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                    unzip awscliv2.zip
-                    sudo ./aws/install
-EOF
-                    '''
-  
-            }
-        }                   
+                                   
                   
         
             stage('Deploy App'){
