@@ -121,7 +121,7 @@ EOF
             stage('Deploy App'){
                 steps{ 
                     script {
-                      load "$./home/jenkins/var.groovy"
+                      load "./home/jenkins/var.groovy"
                     }
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
