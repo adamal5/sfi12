@@ -101,7 +101,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -114,17 +114,42 @@ EOF
                     '''
   
             }
-        }            
-        
-            stage('Deploy App'){
-                steps{    
+        }
+                  
+            stage('Install mySQL client & AWS CLI'){
+                steps{
                     sh '''
                     ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                    sudo apt update
+                    sudo apt install mysql-client-core-5.7 -y
+                    sudo apt install wget -y
+                    sudo apt install curl -y
+                    sudo apt install zip -y
+                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                    unzip awscliv2.zip
+                    sudo ./aws/install
+EOF
+                    '''
+  
+            }
+        }                   
+                  
+        
+            stage('Deploy App'){
+                steps{ 
+                    script {
+                      def props = readProperties file: 'variables.properties'
+                      env.DATABASE_URI = props.DATABASE_URI
+                      env.TES_DATABASE_URI = props.TEST_DATABASE_URI
+                      env.SECRET_KEY = props.SECRET_KEY
+                    }
+                    sh '''
+                    ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
-                    export DATABASE_URI= ${DATABSE_URI}
-                    export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
-                    export SECRET_KEY= ${SECRET_KEY}
+                    export DATABASE_URI= $DATABSE_URI
+                    export TEST_DATABASE_URI= $TEST_DATABSE_URI
+                    export SECRET_KEY= $SECRET_KEY
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
@@ -137,7 +162,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                    ssh ubuntu@ip-172-31-9-28m -y <<EOF
                     sleep 15
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -148,7 +173,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-5-12 -y <<EOF
+                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
