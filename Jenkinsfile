@@ -138,11 +138,13 @@ EOF
             stage('Deploy App'){
                 steps{ 
                     script {
+                      dir ("/home/jenkins"){
                       def props = readProperties file: 'variables.properties'
                       env.DATABASE_URI = props.DATABASE_URI
                       env.TES_DATABASE_URI = props.TEST_DATABASE_URI
                       env.SECRET_KEY = props.SECRET_KEY
-                    }
+                      }
+                      }
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
