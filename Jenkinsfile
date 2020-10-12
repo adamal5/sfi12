@@ -123,7 +123,7 @@ EOF
                     script {
                       dir('./home/jenkins'){            
                       load 'var.groovy'
-                    }
+                      }}
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
