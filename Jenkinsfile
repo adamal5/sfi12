@@ -128,7 +128,7 @@ EOF
                       env.SECRET_KEY = props.SECRET_KEY
                       }
                       }
-                    withEnv([env.DATABASE_URI '= DATABASE_URI',env.TEST_DATABASE_URI '= TEST_DATABASE_URI', env.SECRET_KEY '= SECRET_KEY', ]){
+                    withEnv(['env.DATABASE_URI = DATABASE_URI','env.TEST_DATABASE_URI = TEST_DATABASE_URI', 'env.SECRET_KEY = SECRET_KEY', ]){
                     sh '''
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
