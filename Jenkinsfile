@@ -120,6 +120,7 @@ pipeline{
 EOF
                     '''
                     }
+                }
                 }   
                 
             stage('Run Frontend Test'){
