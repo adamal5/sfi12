@@ -101,7 +101,7 @@ pipeline{
             stage('Install Docker and Docker Compose on App VM'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
+                    ssh ubuntu@ip-172-31-13-215 -y <<EOF
                     curl https://get.docker.com | sudo bash 
                     sudo usermod -aG docker $(whoami)
                     sudo apt update
@@ -121,7 +121,7 @@ EOF
             stage('Deploy App'){
                 steps{ 
                     sh '''
-                    ssh ubuntu@ip-172-31-9-28 <<EOF
+                    ssh ubuntu@ip-172-31-13-215 <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     docker pull adamal5/sfia2-frontend:v1
@@ -137,7 +137,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-9-28m -y <<EOF
+                    ssh ubuntu@ip-172-31-13-215 -y <<EOF
                     sleep 15
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -148,7 +148,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-9-28 -y <<EOF
+                    ssh ubuntu@ip-172-31-13-215 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
