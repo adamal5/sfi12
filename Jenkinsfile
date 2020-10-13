@@ -103,15 +103,14 @@ pipeline{
                                                      
             stage('Deploy App'){
                 steps{ 
-                    withEnv(["DATABASE_URI=${DATABASE_URI}", "TES_DATABASE_URI=${TEST_DATABASE_URI}", "SECRET_KEY=${SECRET_KEY}" ]){
                     sh '''
                     ssh ubuntu@ip-172-31-13-215 <<EOF
                     sudo rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
-                    export DATABASE_URI="${env.DATABASE_URI}"
-                    export TEST_DATABASE_URI="${env.TEST_DATABASE_URI}"
-                    export SECTRET_KEY="${env.SECRET_KEY}"
+                    export DATABASE_URI=mysql+pymysql://admin:ab5gh78af@terraform-20201013065258941200000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/users
+                    export TEST_DATABASE_URI=mysql+pymysql://admin:ab5gh78hj@terraform-20201013065258941300000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/test
+                    export SECTRET_KEY=hjbsdjbsd
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
@@ -120,7 +119,7 @@ pipeline{
 EOF
                     '''
                     }
-                }
+                
                 }   
                 
             stage('Run Frontend Test'){
