@@ -109,9 +109,9 @@ pipeline{
                     sudo rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
-                    export DATABASE_URI=${env.DATABASE_URI}
-                    export TEST_DATABASE_URI=${env.TEST_DATABASE_URI}
-                    export SECTRET_KEY=${env.SECRET_KEY}
+                    export DATABASE_URI="${env.DATABASE_URI}"
+                    export TEST_DATABASE_URI="${env.TEST_DATABASE_URI}"
+                    export SECTRET_KEY="${env.SECRET_KEY}"
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
