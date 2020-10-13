@@ -103,6 +103,7 @@ pipeline{
                                                      
             stage('Deploy App'){
                 steps{ 
+                    withEnv(["DATABASE_URI=${DATABASE_URI}", "TES_DATABASE_URI=${TEST_DATABASE_URI}", "SECRET_KEY=${SECRET_KEY}" ]){
                     sh '''
                     ssh ubuntu@ip-172-31-13-215 <<EOF
                     sudo rm -rf SFIA2
