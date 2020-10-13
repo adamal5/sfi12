@@ -124,9 +124,6 @@ EOF
                     ssh ubuntu@ip-172-31-9-28 <<EOF
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
-                    export DATABASE_URI= ${DATABSE_URI}
-                    export TEST_DATABASE_URI= ${TEST_DATABSE_URI}
-                    export SECRET_KEY= ${SECRET_KEY}
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
                     docker pull adamal5/sfia2-database:v1
