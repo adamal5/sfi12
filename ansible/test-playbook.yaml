@@ -1,0 +1,19 @@
+- hosts: test-vm
+  become: true
+  tasks:
+     - name: Update App
+       apt: update_cache=yes
+
+     - name: Install Java, Wget and Git
+       apt:
+         pkg:
+         - wget
+         - git
+         - curl
+
+     - name: Transfer Script
+       copy: src=test-config.sh dest=test-config.sh
+
+
+     - name: Execute Configuration Script 
+       command: sh test-config.sh
