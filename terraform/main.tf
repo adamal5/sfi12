@@ -9,7 +9,7 @@ resource "aws_instance" "jenkins" {
   ami                      = var.ami-uk
   instance_type            = var.type
   vpc_security_group_ids   = ["sg-03fc04a571396dc83"]
-  key_name                 = "adamal5"
+  key_name                 = "sfia2.1"
   tags = {
     Name = "Jenkins"
   }
@@ -20,7 +20,7 @@ resource "aws_instance" "test-environment" {
   ami           = var.ami-uk
   instance_type = var.type
   vpc_security_group_ids   = ["sg-03fc04a571396dc83"]
-  key_name      = "adamal5"
+  key_name      = "sfia2.1"
   tags          = {
     Name = "test-environment"
   }
@@ -38,11 +38,10 @@ variable "type" {
 
 
 
-resource "local_file" "jenkins-variables" {
-  content     = "test-file"
-  filename    = "${path.module}/jenkins-variables.groovy"
+resource "aws_key_pair" "defualt" {
+  key_name   = "sfia2.1"
+  public_key = file("~/.ssh/id_rsa.pub")
 }
-
 
 resource "aws_db_instance" "production-db" {
   provider             = "aws.aws-uk"
