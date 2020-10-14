@@ -1,7 +1,7 @@
 pipeline{
         agent any
         options {
-          skipDefaultCheckout true
+          skipDefaultCheckout false
         }
         environment {
             app_version = 'v1'
