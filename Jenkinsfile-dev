@@ -11,15 +11,13 @@ pipeline{
           stages{      
             stage('Clone Repo'){
                 steps{
-                    dir("/home"){
                     sh '''
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     '''
               }
             }
-        }
-      
+        
             stage('Build FrontImage'){
                 steps{      
                     script{
