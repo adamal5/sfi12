@@ -11,6 +11,7 @@ pipeline{
           stages{      
             stage('Clone Repo'){
                 steps{
+                    dir("/home/jenkins"){
                     sh '''
                     sudo usermod -aG docker ${USER}
                     rm -rf SFIA2
@@ -18,12 +19,13 @@ pipeline{
                     cd SFIA2
                     '''
               }
+              }
             }
         
             stage('Build FrontImage'){
                 steps{      
                     script{
-                        dir("/var/lib/jenkins/workspace/Test-2.1/SFIA2/frontend"){
+                        dir("/SFIA2/frontend"){
                           if (env.rollback == 'false'){
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
