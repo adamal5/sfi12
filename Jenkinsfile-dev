@@ -20,6 +20,7 @@ pipeline{
   
             }
         }
+        }
       
             stage('Build FrontImage'){
                 steps{      
