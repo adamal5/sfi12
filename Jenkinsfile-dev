@@ -13,7 +13,6 @@ pipeline{
                 steps{
                     dir("./home/jenkins"){
                     sh '''
-                    sudo usermod -aG docker ${USER}
                     rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
