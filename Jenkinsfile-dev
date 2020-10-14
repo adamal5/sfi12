@@ -11,7 +11,7 @@ pipeline{
           stages{      
             stage('Clone Repo'){
                 steps{
-                    dir("/home/jenkins"){
+                    dir("/home"){
                     sh '''
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
