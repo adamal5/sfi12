@@ -12,6 +12,7 @@ pipeline{
             stage('Clone Repo'){
                 steps{
                     sh '''
+                    rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     '''
@@ -21,7 +22,7 @@ pipeline{
             stage('Build FrontImage'){
                 steps{      
                     script{
-                        dir("/SFIA2/frontend"){
+                        dir("/var/lib/jenkins/workspace/Test-2.1/SFIA2/frontend"){
                           if (env.rollback == 'false'){
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
