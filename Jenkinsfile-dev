@@ -11,7 +11,7 @@ pipeline{
           stages{      
             stage('Clone Repo'){
                 steps{
-                    dir("./jenkins/home"){
+                    dir("jenkins/home"){
                     sh '''
                     sudo rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
