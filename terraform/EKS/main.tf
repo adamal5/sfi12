@@ -16,7 +16,7 @@ provider "kubernetes" {
 
 module "my-cluster" {
   source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = "sfia2-production"
+  cluster_name    = "sfia2-production2.1"
   cluster_version = "1.14"
   subnets         = ["subnet-c08218ba", "subnet-d496c8bd", "subnet-f419b0b8"]
   vpc_id          = "vpc-e97c2881"
