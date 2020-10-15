@@ -93,3 +93,8 @@
        command: "{{ item }}"
        with_items:
          - sudo snap install kubectl --classic
+
+     - name: Install AWS
+       command: "{{ item }}"
+       with_items:
+         - sudo apt install awscli -y
