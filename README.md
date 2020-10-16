@@ -51,6 +51,8 @@ A full risk assessment was carried out before project commencenment and was moni
 The risk assessment for this project can be found in full here:
 https://docs.google.com/spreadsheets/d/1DwCxxrg-kMp8HfaBWx4tTm-awV12buH7oCKW2RowsOY/edit?usp=sharing
 
+![risk-assessment](https://github.com/adamal5/SFIA2/blob/development2.1/images/riskas.png)
+
 
 ### Project Tracking 
 Jira's Kanban board was employed to track project progress, in line with agile working principles. 
