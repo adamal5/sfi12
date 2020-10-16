@@ -124,7 +124,7 @@ Testing for the application is carried out using the pytest command. Upon builin
 
 Jira Kanban Board:https://ak21.atlassian.net/secure/RapidBoard.jspa?projectKey=SFIA2&rapidView=4
 
-Risk Assessment: https://docs.google.com/spreadsheets/d/168WPpOYIqNN-oN5-1prWPs5vJ7KqBjUfUSYXmCgbJHo/edit?usp=sharing
+Risk Assessment: https://docs.google.com/spreadsheets/d/1DwCxxrg-kMp8HfaBWx4tTm-awV12buH7oCKW2RowsOY/edit?usp=sharing
 
 Presentation: https://docs.google.com/presentation/d/1vrwk2YhZBkXPyp5loHmnUd6g-PDPBXi_sML4jPjTNHc/edit?usp=sharing
 
