@@ -30,6 +30,6 @@ spec:
         image: adamal5/backend:latest
         env:
         - name: DATABASE_URI
-          value: "mysql+pymysql://root:password@mysql:3306/users"
+          value: "mysql+pymysql://admin:ab5gh78af@terraform-20201014184555657300000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/users"
         - name: SECRET_KEY
           value: "password"

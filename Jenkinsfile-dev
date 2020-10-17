@@ -11,19 +11,20 @@ pipeline{
           stages{      
             stage('Clone Repo'){
                 steps{
+                    dir("./home/jenkins"){
                     sh '''
-                    sudo rm -rf SFIA2
+                    rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
                     '''
-  
+              }
+              }
             }
-        }
-      
+        
             stage('Build FrontImage'){
                 steps{      
                     script{
-                        dir("SFIA2/frontend"){
+                        dir("/SFIA2/frontend"){
                           if (env.rollback == 'false'){
                             frontendimage = docker.build("adamal5/sfia2-frontend")
                         }
@@ -96,12 +97,12 @@ pipeline{
             stage('Deploy App'){
                 steps{ 
                     sh '''
-                    ssh ubuntu@ip-172-31-13-215 <<EOF
+                    ssh ubuntu@ip-172-31-8-254 <<EOF
                     sudo rm -rf SFIA2
                     git clone https://github.com/adamal5/SFIA2
                     cd SFIA2
-                    export DATABASE_URI=mysql+pymysql://admin:ab5gh78af@terraform-20201013065258941200000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/users
-                    export TEST_DATABASE_URI=mysql+pymysql://admin:ab5gh78hj@terraform-20201013065258941300000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/test
+                    export DATABASE_URI=mysql+pymysql://admin:ab5gh78af@terraform-20201014184555657300000001.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306:3306/users
+                    export TEST_DATABASE_URI=mysql+pymysql://admin:ab5gh78hj@terraform-20201014184555658100000002.cdsmwkad1q7o.eu-west-2.rds.amazonaws.com:3306/test
                     export SECTRET_KEY=hjbsdjbsd
                     docker pull adamal5/sfia2-frontend:v1
                     docker pull adamal5/sfia2-backend:v1
@@ -117,7 +118,7 @@ EOF
             stage('Run Frontend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-13-215 -y <<EOF
+                    ssh ubuntu@ip-172-31-8-254 -y <<EOF
                     sleep 15
                     cd SFIA2/frontend/tests
                     docker-compose exec -T frontend pytest --cov application > frontend-test.txt
@@ -128,7 +129,7 @@ EOF
             stage('Run Backend Test'){
                 steps{
                     sh '''
-                    ssh ubuntu@ip-172-31-13-215 -y <<EOF
+                    ssh ubuntu@ip-172-31-8-254 -y <<EOF
                     cd SFIA2/frontend/tests
                     docker-compose exec -T backend pytest --cov application > backend-test.txt
 
