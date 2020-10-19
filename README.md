@@ -51,13 +51,13 @@ A full risk assessment was carried out before project commencenment and was moni
 The risk assessment for this project can be found in full here:
 https://docs.google.com/spreadsheets/d/1DwCxxrg-kMp8HfaBWx4tTm-awV12buH7oCKW2RowsOY/edit?usp=sharing
 
-![risk-assessment](https://github.com/adamal5/SFIA2/blob/development2.1/images/riskas.png)
+![risk-assessment](https://github.com/adamal5/SFIA2/blob/master/images/riskas.png)
 
 
 ### Project Tracking 
 Jira's Kanban board was employed to track project progress, in line with agile working principles. 
 
-![kanaban-board](https://github.com/adamal5/SFIA2/blob/development2.1/images/kanban.png)
+![kanaban-board](https://github.com/adamal5/SFIA2/blob/master/images/kanban.png)
 
 The full board with all tasks can be found at the following link:
 
@@ -86,7 +86,7 @@ The second technology employed was ansible, whilst terraform was used to provisi
 
 Jenkins was the continous integration platform of choice for this project. The corresponding Jenkinsfiles were designed to automate the process of confguring environments with the approproate respositories, dependencies and packages to allow for the deployment and testing of the application in developent before triggering the automatic deployment of the production environment subject to test results. 
 
-![jenkins](https://github.com/adamal5/SFIA2/blob/development2.1/images/jenkinspipeline.png)
+![jenkins](https://github.com/adamal5/SFIA2/blob/master/images/jenkinspipeline.png)
 
 Two pipelines are run in Jenkins- serving the development and master branch of the git hub repository that is home to the application. Jenkins improves the effciency of the development to deployment pipeline for a number of reasosn. It can be triggered manually or better yet with webhooks by making a change to the development branch of the repository which will in turn trigger the process of building, deploying and tetsing the app- as is the case with this project. The workflow is designed to allow testing and deployment of the app largely independent of the developers.
 
